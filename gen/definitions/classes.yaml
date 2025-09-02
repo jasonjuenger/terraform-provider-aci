@@ -144,6 +144,13 @@ fvRsDomAtt:
     - "fcDomP"
     - "l2extDomP"
 
+fvUplinkOrderCont:
+  resource_name: "uplink_order_container"
+  include: true
+  ui_locations:
+    - "Tenants -> Application Profiles -> Application EPGs -> Domains (VMs and Bare-Metals)"
+  sub_category: "Application Management"
+
 fvRsPathAtt:
   resource_name: "relation_to_static_path"
   ui_locations:

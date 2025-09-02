@@ -9,6 +9,9 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/knownvalue"
+	"github.com/hashicorp/terraform-plugin-testing/statecheck"
+	"github.com/hashicorp/terraform-plugin-testing/tfjsonpath"
 )
 
 func TestAccResourceFvRsDomAttWithFvAEPg(t *testing.T) {
@@ -295,6 +298,14 @@ func TestAccResourceFvRsDomAttWithFvAEPg(t *testing.T) {
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.0.value", "value_1"),
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.1.key", "key_1"),
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.1.value", "test_value"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.active", "active_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.annotation", "annotation_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.description", "description_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.name", "name_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.name_alias", "name_alias_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.owner_key", "owner_key_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.owner_tag", "owner_tag_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.standby", "standby_1"),
 				),
 			},
 			// Refresh State before import testing to ensure that the state is up to date
@@ -323,6 +334,24 @@ func TestAccResourceFvRsDomAttWithFvAEPg(t *testing.T) {
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.1.key", "key_1"),
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.1.value", "test_value"),
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.#", "2"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.active", "active_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.annotation", "annotation_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.annotations.0.key", "key_0"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.annotations.0.value", "value_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.annotations.1.key", "key_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.annotations.1.value", "test_value"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "annotations.#", "2"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.tags.0.key", "key_0"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.tags.0.value", "value_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.tags.1.key", "key_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.tags.1.value", "test_value"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.#", "2"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.description", "description_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.name", "name_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.name_alias", "name_alias_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.owner_key", "owner_key_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.owner_tag", "owner_tag_1"),
+					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "uplink_order_container.standby", "standby_1"),
 				),
 			},
 			// Update with children first child removed
@@ -337,6 +366,25 @@ func TestAccResourceFvRsDomAttWithFvAEPg(t *testing.T) {
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.0.value", "test_value"),
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.#", "1"),
 				),
+				ConfigStateChecks: []statecheck.StateCheck{
+					statecheck.ExpectKnownValue("aci_relation_to_domain.test",
+						tfjsonpath.New("uplink_order_container"),
+						knownvalue.MapExact(
+							map[string]knownvalue.Check{
+								"active":      knownvalue.Null(),
+								"annotation":  knownvalue.Null(),
+								"annotations": knownvalue.Null(),
+								"tags":        knownvalue.Null(),
+								"description": knownvalue.Null(),
+								"name":        knownvalue.Null(),
+								"name_alias":  knownvalue.Null(),
+								"owner_key":   knownvalue.Null(),
+								"owner_tag":   knownvalue.Null(),
+								"standby":     knownvalue.Null(),
+							},
+						),
+					),
+				},
 			},
 			// Update with all children removed
 			{
@@ -346,6 +394,25 @@ func TestAccResourceFvRsDomAttWithFvAEPg(t *testing.T) {
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "annotations.#", "0"),
 					resource.TestCheckResourceAttr("aci_relation_to_domain.test", "tags.#", "0"),
 				),
+				ConfigStateChecks: []statecheck.StateCheck{
+					statecheck.ExpectKnownValue("aci_relation_to_domain.test",
+						tfjsonpath.New("uplink_order_container"),
+						knownvalue.MapExact(
+							map[string]knownvalue.Check{
+								"active":      knownvalue.Null(),
+								"annotation":  knownvalue.Null(),
+								"annotations": knownvalue.Null(),
+								"tags":        knownvalue.Null(),
+								"description": knownvalue.Null(),
+								"name":        knownvalue.Null(),
+								"name_alias":  knownvalue.Null(),
+								"owner_key":   knownvalue.Null(),
+								"owner_tag":   knownvalue.Null(),
+								"standby":     knownvalue.Null(),
+							},
+						),
+					),
+				},
 			},
 		},
 		CheckDestroy: testCheckResourceDestroy,
@@ -453,6 +520,36 @@ resource "aci_relation_to_domain" "test" {
       value = "test_value"
     },
   ]
+  uplink_order_container = {
+    active = "active_1"
+    annotation = "annotation_1"
+    annotations = [
+	  {
+        key = "key_0"
+        value = "value_1"
+	  },
+	  {
+        key = "key_1"
+        value = "test_value"
+	  },
+    ]
+    tags = [
+	  {
+        key = "key_0"
+        value = "value_1"
+	  },
+	  {
+        key = "key_1"
+        value = "test_value"
+	  },
+    ]
+    description = "description_1"
+    name = "name_1"
+    name_alias = "name_alias_1"
+    owner_key = "owner_key_1"
+    owner_tag = "owner_tag_1"
+    standby = "standby_1"
+  }
 }
 `
 
@@ -479,6 +576,7 @@ resource "aci_relation_to_domain" "test" {
 	  value = "test_value"
 	},
   ]
+  uplink_order_container = {}
 }
 `
 
@@ -488,5 +586,6 @@ resource "aci_relation_to_domain" "test" {
   target_dn = "uni/vmmp-VMware/dom-domain_1"
   annotations = []
   tags = []
+  uplink_order_container = {}
 }
 `
